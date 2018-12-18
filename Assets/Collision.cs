@@ -6,7 +6,7 @@ public class Collision : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("dupa");
+	
 	}
 	
 	// Update is called once per frame
@@ -16,6 +16,6 @@ public class Collision : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col)
     {
-        Debug.Log("OnCollisionEnter2D");
+       // Debug.Log("OnCollisionEnter2D");
     }
 }
