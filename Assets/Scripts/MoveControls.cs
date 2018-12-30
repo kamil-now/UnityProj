@@ -1,38 +1,51 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class MoveControls : MonoBehaviour
 {
     [SerializeField]
     private float speed;
+    private Animator animator;
+    private bool playerMoving;
+    private Vector2 lastMove;
     [SerializeField]
-    private float tilt;
-    private float horizontal;
-    private float vertical;
-
-    private new Rigidbody rigidbody;
-    private Vector3 vector;
-
-    #region MonoBehaviour
-    private void Start()
+    private string horizontalAxis;
+    [SerializeField]
+    private string verticalAxis;
+    [SerializeField]
+    private string gameObjectId = "";
+    void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        speed = 1000;
-    }
-    private void Update()
-    {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-
-        vector = new Vector3(horizontal, 0, vertical);
-
-        rigidbody.velocity = vector * Time.fixedUnscaledDeltaTime * speed;
-
-        //rigidbody.position = new Vector3(
-        //    Mathf.Clamp(rigidbody.position.x, GameManager.Instance.LeftBorder, GameManager.Instance.RightBorder),
-        //    Values.InitPlayerPosition.y,
-        //    Mathf.Clamp(rigidbody.position.z, GameManager.Instance.BottomBorder, GameManager.Instance.TopBorder));
+        animator = GetComponent<Animator>();
+        speed = 5;
+        gameObject.tag.Where(c => c >= '0' && c <= '9').ForEach(x => gameObjectId += x);
+        horizontalAxis = "Horizontal" + gameObjectId;
+        verticalAxis = "Vertical" + gameObjectId;
 
     }
-    #endregion
+
+    void Update()
+    {
+        playerMoving = false;
+        var horizontal = Input.GetAxisRaw(horizontalAxis);
+        var vertical = Input.GetAxisRaw(verticalAxis);
+        if (horizontal > 0.5f || horizontal < -0.5f)
+        {
+            transform.Translate(new Vector3(horizontal * speed * Time.deltaTime, 0f, 0f));
+            playerMoving = true;
+            lastMove = new Vector2(horizontal, 0f);
+        }
+        if (vertical > 0.5f || vertical < -0.5f)
+        {
+            transform.Translate(new Vector3(0f, vertical * speed * Time.deltaTime, 0f));
+            playerMoving = true;
+            lastMove = new Vector2(0f, vertical);
+        }
+        animator.SetFloat("MoveX", horizontal);
+        animator.SetFloat("MoveY", vertical);
+        animator.SetBool("PlayerMoving", playerMoving);
+        animator.SetFloat("LastMoveX", lastMove.x);
+        animator.SetFloat("LastMoveY", lastMove.y);
+    }
+
 }
-
