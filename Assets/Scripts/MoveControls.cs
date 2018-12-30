@@ -56,34 +56,43 @@ public class MoveControls : MonoBehaviour
 
         movementTimer.Elapsed += (s, e) => { canMove = true; movementTimer.Stop(); };
     }
-
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        Debug.Log("OnCollisionEnter2D " + col.collider.gameObject.tag);
+        if (!col.collider.gameObject.tag.Contains("Box"))
+            pos = previousPosition;
+    }
+    Vector3 previousPosition;
     void Update()
     {
         playerMoving = false;
 
         var horizontal = Input.GetAxisRaw(horizontalAxis);
         var vertical = Input.GetAxisRaw(verticalAxis);
-
         if (Input.GetKey(controls.RightKey) && canMove)
         {
+            previousPosition = pos;
             pos += Vector3.right;
             canMove = false;
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.LeftKey) && canMove)
         {
+            previousPosition = pos;
             pos += Vector3.left;
             canMove = false;
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.UpKey) && canMove)
         {
+            previousPosition = pos;
             pos += Vector3.up;
             canMove = false;
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.DownKey) && canMove)
         {
+            previousPosition = pos;
             pos += Vector3.down;
             canMove = false;
             movementTimer.Start();
