@@ -6,6 +6,13 @@ public class MainEventStorage {
 
 	public static bool playerStaysOnRedCross = false;
 	public static bool playerStaysOnRedStart = false;
+
+	public static bool BoxCoverBlueFirst = false;
+	public static bool BoxCoverBlueSecond = false;
+	public static bool BoxCoverBlueThird = false;
+
+	public static bool playerOneDidCollidWithFinalRed = false;
+	public static bool playerTwoDidCollidWithFinalRed = false;
 }
 
 public class Unlocker : MonoBehaviour {
