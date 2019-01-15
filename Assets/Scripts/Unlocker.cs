@@ -13,6 +13,10 @@ public class MainEventStorage {
 
 	public static bool playerOneDidCollidWithFinalRed = false;
 	public static bool playerTwoDidCollidWithFinalRed = false;
+
+    public static float TimeLeft = 5.0f;
+    public static bool runTime = false;
+
 }
 
 public class Unlocker : MonoBehaviour {
@@ -34,12 +38,14 @@ public class Unlocker : MonoBehaviour {
 			Debug.Log("==Player opened start border==");
 			var borderToOpen = GameObject.FindWithTag("StartBorder");
 			MainEventStorage.playerStaysOnRedStart = true;
-			checkIfCrossBorderCanBeOpened(); 
-			Destroy(borderToOpen);
-		} else if(tag == "RedCross") {
+			checkIfCrossBorderCanBeOpened();
+            borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        } else if(tag == "RedCross") {
 			Debug.Log("Player enter on red cross border");
 			MainEventStorage.playerStaysOnRedCross = true;
-			checkIfCrossBorderCanBeOpened();
+            var borderToOpen = GameObject.FindWithTag("HardCross");
+            borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            checkIfCrossBorderCanBeOpened();
 		}
     }
 
@@ -47,11 +53,18 @@ public class Unlocker : MonoBehaviour {
     {
 		if (tag == "RedStart") { 
 			MainEventStorage.playerStaysOnRedStart = false;
-		}
+            var borderToClose = GameObject.FindWithTag("StartBorder");
+            borderToClose.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            MainEventStorage.playerStaysOnRedStart = true;
+            checkIfCrossBorderCanBeOpened();
+            borderToClose.SetActive(true);
+        }
 		else if (tag == "RedCross") {
 			Debug.Log("Player leave red cross border");
 			MainEventStorage.playerStaysOnRedCross = false;
-		}
+            var borderToOpen = GameObject.FindWithTag("HardCross");
+            borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        }
 	}
 
 	private void checkIfCrossBorderCanBeOpened() {
@@ -61,7 +74,8 @@ public class Unlocker : MonoBehaviour {
 
 		if (isPlayerOnRedStart && isPlayerOnRedCross) {
 			var borderToOpen = GameObject.FindWithTag("TwoWaysBorder");
-			Destroy(borderToOpen);
+            borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            MainEventStorage.runTime = true;
 		}
 	}
 }
