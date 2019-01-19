@@ -79,6 +79,8 @@ public class BlueTrigger : MonoBehaviour {
 			var secondBorderToOpen = GameObject.FindWithTag("FinalGate2");
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
             secondBorderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = false;
+			secondBorderToOpen.GetComponent<BoxCollider2D>().enabled = false;
 		}
 	}
 }

@@ -30,6 +30,7 @@ public class Manager : MonoBehaviour {
         borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 2;
 
         MainEventStorage.runTime = false;
-        MainEventStorage.TimeLeft = 5.0f;
-    }
+        MainEventStorage.TimeLeft = 30.0f;
+		borderToOpen.GetComponent<BoxCollider2D>().enabled = true;
+	}
 }

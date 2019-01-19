@@ -14,7 +14,7 @@ public class MainEventStorage {
 	public static bool playerOneDidCollidWithFinalRed = false;
 	public static bool playerTwoDidCollidWithFinalRed = false;
 
-    public static float TimeLeft = 5.0f;
+    public static float TimeLeft = 30.0f;
     public static bool runTime = false;
 
 }
@@ -35,17 +35,20 @@ public class Unlocker : MonoBehaviour {
     {
 
 		if (tag == "RedStart") {
-			Debug.Log("==Player opened start border==");
+			Debug.Log("Player opened start border");
 			var borderToOpen = GameObject.FindWithTag("StartBorder");
 			MainEventStorage.playerStaysOnRedStart = true;
 			checkIfCrossBorderCanBeOpened();
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = false;
+
         } else if(tag == "RedCross") {
 			Debug.Log("Player enter on red cross border");
 			MainEventStorage.playerStaysOnRedCross = true;
             var borderToOpen = GameObject.FindWithTag("HardCross");
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
-            checkIfCrossBorderCanBeOpened();
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = false;
+			checkIfCrossBorderCanBeOpened();
 		}
     }
 
@@ -55,15 +58,25 @@ public class Unlocker : MonoBehaviour {
 			MainEventStorage.playerStaysOnRedStart = false;
             var borderToClose = GameObject.FindWithTag("StartBorder");
             borderToClose.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            MainEventStorage.playerStaysOnRedStart = true;
+         //   MainEventStorage.playerStaysOnRedStart = true;
             checkIfCrossBorderCanBeOpened();
             borderToClose.SetActive(true);
-        }
+			borderToClose.GetComponent<BoxCollider2D>().enabled = true;
+			Debug.Log("Player leave red start border");
+
+		}
 		else if (tag == "RedCross") {
-			Debug.Log("Player leave red cross border");
 			MainEventStorage.playerStaysOnRedCross = false;
-            var borderToOpen = GameObject.FindWithTag("HardCross");
-            borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 2;
+			var borderToOpen = GameObject.FindWithTag("HardCross");
+			borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 2;
+		//	MainEventStorage.playerStaysOnRedCross = true;
+			checkIfCrossBorderCanBeOpened();
+			borderToOpen.SetActive(true);
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = true;
+			Debug.Log("Player leave red cross border");
+			
+            
+            
         }
 	}
 
@@ -75,7 +88,9 @@ public class Unlocker : MonoBehaviour {
 		if (isPlayerOnRedStart && isPlayerOnRedCross) {
 			var borderToOpen = GameObject.FindWithTag("TwoWaysBorder");
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
-            MainEventStorage.runTime = true;
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = false;
+		//	borderToOpen.SetActive(false);
+			MainEventStorage.runTime = true;
 		}
 	}
 }
