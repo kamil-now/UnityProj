@@ -17,6 +17,10 @@ public class MainEventStorage {
     public static float TimeLeft = 30.0f;
     public static bool runTime = false;
 
+    public static int BlueTriggersCount = 0;
+
+    public static bool filledEndGameRedOne = false;
+    public static bool filledEndGameRedTwo = false;
 }
 
 public class Unlocker : MonoBehaviour {
