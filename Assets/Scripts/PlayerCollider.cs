@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCollider : MonoBehaviour {
 
@@ -17,10 +18,10 @@ public class PlayerCollider : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col)
     {
 
-		if (col.tag == "Player1" && tag == "FinalRed1") {
+		if (tag == "FinalRed1") {
 			MainEventStorage.playerOneDidCollidWithFinalRed = true;
 			tryToFinishScene();
-		} else if(col.tag == "Player2" && tag == "FinalRed2") {
+		} else if(tag == "FinalRed2") {
 			MainEventStorage.playerTwoDidCollidWithFinalRed = true;
 			tryToFinishScene();
 		}
@@ -42,8 +43,11 @@ public class PlayerCollider : MonoBehaviour {
 		var playerOne = MainEventStorage.playerOneDidCollidWithFinalRed;
 		var playerTwo = MainEventStorage.playerTwoDidCollidWithFinalRed;
 
+        Debug.Log(playerOne);
+        Debug.Log(playerTwo);
+
 		if (playerOne && playerTwo) {
-			Debug.Log("Finish!!");
+            SceneManager.LoadSceneAsync("SecondMap");
 		}
 	}
 }
