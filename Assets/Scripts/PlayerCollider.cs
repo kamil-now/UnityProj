@@ -20,7 +20,6 @@ public class PlayerCollider : MonoBehaviour {
 
 		if (tag == "FinalRed1") {
 			MainEventStorage.playerOneDidCollidWithFinalRed = true;
-			tryToFinishScene();
 		} else if(tag == "FinalRed2") {
 			MainEventStorage.playerTwoDidCollidWithFinalRed = true;
 			tryToFinishScene();
