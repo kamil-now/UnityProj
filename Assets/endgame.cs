@@ -14,30 +14,32 @@ public class endgame : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-       if (tag == "2FinalRed")
+        Debug.Log(tag);
+        if (tag == "2FinalRed")
         {
             MainEventStorage.filledEndGameRedOne = true;
             tryFinishGame();
-        } else if(tag == "2FinalRed2")
+        }
+        else if (tag == "2FinalRed2")
         {
             MainEventStorage.filledEndGameRedTwo = true;
             tryFinishGame();
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (tag == "2FinalRed")
         {
             MainEventStorage.filledEndGameRedOne = false;
-         
+
         }
         else if (tag == "2FinalRed2")
         {
             MainEventStorage.filledEndGameRedTwo = false;
-          
+
         }
     }
 
