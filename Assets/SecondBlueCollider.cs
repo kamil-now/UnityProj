@@ -42,10 +42,12 @@ public class SecondBlueCollider : MonoBehaviour {
         if (MainEventStorage.BlueTriggersCount == 6)
         {
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 0;
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = false;
         }
         else
         {
             borderToOpen.GetComponent<SpriteRenderer>().sortingOrder = 2;
-        }
+			borderToOpen.GetComponent<BoxCollider2D>().enabled = true;
+		}
     }
 }
