@@ -16,10 +16,13 @@ public class MoveControls : MonoBehaviour
     [SerializeField]
     private string gameObjectId = "";
     private Controls controls;
-    private Vector3 pos;
+    public Vector3 positionPlayer;
     private Transform tr;
     private bool canMove = true;
     private Timer movementTimer = new Timer(200);
+    public Vector3 previousPlayerPosition;
+    public BoxColliderScript BoxColliderScript;
+
 
     void Start()
     {
@@ -51,7 +54,7 @@ public class MoveControls : MonoBehaviour
 
         horizontalAxis = "Horizontal" + gameObjectId;
         verticalAxis = "Vertical" + gameObjectId;
-        pos = transform.position;
+        positionPlayer = transform.position;
         tr = transform;
 
         movementTimer.Elapsed += (s, e) => { canMove = true; movementTimer.Stop(); };
@@ -59,10 +62,14 @@ public class MoveControls : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("OnCollisionEnter2D " + col.collider.gameObject.tag);
-        if (!col.collider.gameObject.tag.Contains("Box"))
-            pos = previousPosition;
+        if (!col.collider.gameObject.tag.Contains("Box1"))
+            positionPlayer = previousPlayerPosition;
+        else if (!col.collider.gameObject.tag.Contains("Player1") && col.collider.gameObject.tag.Contains("Box1"))
+            positionPlayer = previousPlayerPosition;
+        else if (!col.collider.gameObject.tag.Contains("Player2") && col.collider.gameObject.tag.Contains("Box1"))
+            positionPlayer = previousPlayerPosition;
     }
-    Vector3 previousPosition;
+    
     void Update()
     {
         playerMoving = false;
@@ -71,34 +78,34 @@ public class MoveControls : MonoBehaviour
         var vertical = Input.GetAxisRaw(verticalAxis);
         if (Input.GetKey(controls.RightKey) && canMove)
         {
-            previousPosition = pos;
-            pos += Vector3.right;
             canMove = false;
+            previousPlayerPosition = positionPlayer;
+            positionPlayer += Vector3.right;           
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.LeftKey) && canMove)
         {
-            previousPosition = pos;
-            pos += Vector3.left;
             canMove = false;
+            previousPlayerPosition = positionPlayer;
+            positionPlayer += Vector3.left;           
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.UpKey) && canMove)
         {
-            previousPosition = pos;
-            pos += Vector3.up;
             canMove = false;
+            previousPlayerPosition = positionPlayer;
+            positionPlayer += Vector3.up;
             movementTimer.Start();
         }
         else if (Input.GetKey(controls.DownKey) && canMove)
         {
-            previousPosition = pos;
-            pos += Vector3.down;
             canMove = false;
+            previousPlayerPosition = positionPlayer;
+            positionPlayer += Vector3.down;           
             movementTimer.Start();
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, positionPlayer, Time.deltaTime * speed);
 
 
         if (horizontal > 0.5f || horizontal < -0.5f)
