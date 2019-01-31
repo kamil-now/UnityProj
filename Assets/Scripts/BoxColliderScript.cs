@@ -27,7 +27,7 @@ public class BoxColliderScript : MonoBehaviour
         speed = 5;
         pos = transform.position;
         tr = transform;
-        
+
         controlsArrows = new Controls()
         {
             DownKey = KeyCode.DownArrow,
@@ -65,7 +65,6 @@ public class BoxColliderScript : MonoBehaviour
         }
         else
             pos = previousPosition;
-            
 
         if ((col.collider.gameObject.tag.Contains("Player1") && Input.GetKey(controlsArrows.UpKey))
             || (col.collider.gameObject.tag.Contains("Player2") && Input.GetKey(controlsWASD.UpKey)))
@@ -95,8 +94,5 @@ public class BoxColliderScript : MonoBehaviour
             previousPosition = pos;
             pos += Vector2.right;
         }
-
-
-
     }
 }
